@@ -4,7 +4,7 @@
 # - TRAVIS_PROFILE
 # END TODO
 
-PROFILE := ins-dev
+TRAVIS_PROFILE := ins-dev
 
 # We create a function to simplify getting variables for aws parameter store.
 
