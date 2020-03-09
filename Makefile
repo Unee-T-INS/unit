@@ -1,6 +1,6 @@
 # This script deploys the Unit API.
 # The hard code variable TRAVIS_PROFILE below will be overridden when .travis.yml runs
-TRAVIS_PROFILE = should-be-overridden-by-deploy
+TRAVIS_PROFILE = ins-dev
 
 # We create a function to simplify getting variables for aws parameter store.
 
