@@ -1,5 +1,6 @@
 # This script deplpoy the Unit API.
-# The variable TRAVIS_PROFILE is set when .travis.yml runs:
+# The hard code variable TRAVIS_PROFILE below will be overridden when .travis.yml runs
+TRAVIS_PROFILE = ins-dev
 
 # We create a function to simplify getting variables for aws parameter store.
 
