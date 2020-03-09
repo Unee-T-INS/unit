@@ -17,6 +17,7 @@ endef
 # - PRIVATE_SUBNET_2
 # - PRIVATE_SUBNET_3
 # - DEFAULT_SECURITY_GROUP
+# - LAMBDA_TO_RDS_SECURITY_GROUP
 
 UPJSON = '.profile |= "$(TRAVIS_PROFILE)" \
 		  |.stages.production |= (.domain = "unit.$(call ssm,STAGE).$(call ssm,DOMAIN)" | .zone = "$(call ssm,STAGE).$(call ssm,DOMAIN)") \
@@ -33,8 +34,9 @@ PRODUPJSON = '.profile |= "$(TRAVIS_PROFILE)" \
 # We have everything, we can run up now.
 dev:
 	# add more info to facilitate debugging
-	echo '# START this is `dev` in Makefile'
-	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
+	# START this is `dev` in Makefile
+	# The TRAVIS_PROFILE is :
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -44,25 +46,27 @@ dev:
 
 demo:
 	# add more info to facilitate debugging
-	echo '# START this is `demo` in Makefile'
-	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
+	# START this is `demo` in Makefile
+	# The TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
 	jq $(UPJSON) up.json.in > up.json
 	up deploy production
-	echo '# END this is demo in Makefile'
+	# END this is demo in Makefile
 
 prod:
 	# add more info to facilitate debugging
-	echo '# START this is `prod` in Makefile'
-	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
+	# START this is `prod` in Makefile
+	# The TRAVIS_PROFILE is:
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
 	jq $(PRODUPJSON) up.json.in > up.json
 	up deploy production
-	echo '# END this is `prod` in Makefile'
+	# END this is `prod` in Makefile
 
 test:
 	curl -i -H "Authorization: Bearer $(call ssm,API_ACCESS_TOKEN)" https://unit.$(call ssm,STAGE).$(call ssm,DOMAIN)/metrics
