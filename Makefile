@@ -37,7 +37,9 @@ dev:
 	# add more info to facilitate debugging
 	# START this is `dev` in Makefile
 	# The current TRAVIS_PROFILE is :
+	# The current TRAVIS_PROFILE is: 
 	$(TRAVIS_PROFILE)
+	# We replace the TRAVIS PROFILE variable with the correct one
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
