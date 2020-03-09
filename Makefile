@@ -12,7 +12,9 @@ endef
 # These variables are comming from AWS Parameter Store
 # - STAGE
 # - DOMAIN
-# - TRAVIS_PROFILE
+# - TRAVIS_PROFILE_DEV
+# - TRAVIS_PROFILE_PROD
+# - TRAVIS_PROFILE_DEMO
 # - EMAIL_FOR_NOTIFICATION_GENERIC
 # - PRIVATE_SUBNET_1
 # - PRIVATE_SUBNET_2
@@ -40,7 +42,7 @@ dev:
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEV)
 	# The new value for TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
@@ -50,29 +52,13 @@ dev:
 	up deploy production
 	echo '# END this is dev in Makefile'
 
-demo:
-	# add more info to facilitate debugging
-	# START this is `demo` in Makefile
-	# The current TRAVIS_PROFILE is: 
-	echo $(TRAVIS_PROFILE)
-	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
-	# The new value for TRAVIS_PROFILE is: 
-	echo $(TRAVIS_PROFILE)
-	@echo $$AWS_ACCESS_KEY_ID
-	# We replace the relevant variable in the up.json file
-	# We use the template defined in up.json.in for that
-	jq $(UPJSON) up.json.in > up.json
-	up deploy production
-	# END this is demo in Makefile
-
 prod:
 	# add more info to facilitate debugging
 	# START this is `prod` in Makefile
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_PROD)
 	# The new value for TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
@@ -81,6 +67,22 @@ prod:
 	jq $(PRODUPJSON) up.json.in > up.json
 	up deploy production
 	# END this is `prod` in Makefile
+
+demo:
+	# add more info to facilitate debugging
+	# START this is `demo` in Makefile
+	# The current TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
+	# We replace the TRAVIS PROFILE variable with the correct one
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEMO)
+	# The new value for TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
+	@echo $$AWS_ACCESS_KEY_ID
+	# We replace the relevant variable in the up.json file
+	# We use the template defined in up.json.in for that
+	jq $(UPJSON) up.json.in > up.json
+	up deploy production
+	# END this is demo in Makefile
 
 test:
 	curl -i -H "Authorization: Bearer $(call ssm,API_ACCESS_TOKEN)" https://unit.$(call ssm,STAGE).$(call ssm,DOMAIN)/metrics
