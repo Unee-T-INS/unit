@@ -40,6 +40,9 @@ dev:
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	# The new value for TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -51,9 +54,11 @@ demo:
 	# add more info to facilitate debugging
 	# START this is `demo` in Makefile
 	# The current TRAVIS_PROFILE is: 
-	$(TRAVIS_PROFILE)
+	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	echo TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	# The new value for TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -68,6 +73,8 @@ prod:
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
 	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
+	# The new value for TRAVIS_PROFILE is: 
+	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
