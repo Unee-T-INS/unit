@@ -1,10 +1,5 @@
-#TODO
-# TRAVIS_PROFILE is hard code now
-#These varibles should be set when .travis.yml runs:
-# - TRAVIS_PROFILE
-# END TODO
-
-TRAVIS_PROFILE := ins-dev
+# This script deplpoy the Unit API.
+# The variable TRAVIS_PROFILE is set when .travis.yml runs:
 
 # We create a function to simplify getting variables for aws parameter store.
 
@@ -33,13 +28,20 @@ PRODUPJSON = '.profile |= "$(TRAVIS_PROFILE)" \
 		  | .actions[0].emails |= ["unit+$(call ssm,EMAIL_FOR_NOTIFICATION_GENERIC)"] \
 		  | .lambda.vpc.subnets |= [ "$(call ssm,PRIVATE_SUBNET_1)", "$(call ssm,PRIVATE_SUBNET_2)", "$(call ssm,PRIVATE_SUBNET_3)" ] \
 		  | .lambda.vpc.security_groups |= [ "$(call ssm,DEFAULT_SECURITY_GROUP)", "$(call ssm,LAMBDA_TO_RDS_SECURITY_GROUP)" ]'
+
 # We have everything, we can run up now.
 dev:
+	# add more info to facilitate debugging
+	echo `this is Makefile`
 	@echo $$AWS_ACCESS_KEY_ID
+	# We replace the relevant variable in the up.json file
+	# We use the template defined in up.json.in for that
 	jq $(UPJSON) up.json.in > up.json
 	up deploy production
 
 demo:
+	# add more info to facilitate debugging
+	echo `this is Makefile`
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -47,6 +49,8 @@ demo:
 	up deploy production
 
 prod:
+	# add more info to facilitate debugging
+	echo `This is Makefile`
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
