@@ -42,7 +42,7 @@ dev:
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEV)
+	export TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEV)
 	# The new value for TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
@@ -58,7 +58,7 @@ prod:
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_PROD)
+	export TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_PROD)
 	# The new value for TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
@@ -74,7 +74,7 @@ demo:
 	# The current TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	# We replace the TRAVIS PROFILE variable with the correct one
-	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEMO)
+	export TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE_DEMO)
 	# The new value for TRAVIS_PROFILE is: 
 	echo $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
