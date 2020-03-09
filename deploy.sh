@@ -50,6 +50,6 @@ fi
 
 # Step 2: Make sure we use the correct profile and run Make
 
-   make $1 TRAVIS_PROFILE=${TRAVIS_PROFILE} 
+   make $1
 
 echo '# END - deploy.sh'

@@ -1,5 +1,5 @@
 # This script deploys the Unit API.
-# The hard code variable TRAVIS_PROFILE below will be overridden when .travis.yml runs
+# The hard code variable TRAVIS_PROFILE below will be overridden when deploy.sh runs
 TRAVIS_PROFILE = ins-dev
 
 # We create a function to simplify getting variables for aws parameter store.
@@ -12,6 +12,7 @@ endef
 # These variables are comming from AWS Parameter Store
 # - STAGE
 # - DOMAIN
+# - TRAVIS_PROFILE
 # - EMAIL_FOR_NOTIFICATION_GENERIC
 # - PRIVATE_SUBNET_1
 # - PRIVATE_SUBNET_2
@@ -35,7 +36,7 @@ PRODUPJSON = '.profile |= "$(TRAVIS_PROFILE)" \
 dev:
 	# add more info to facilitate debugging
 	# START this is `dev` in Makefile
-	# The TRAVIS_PROFILE is :
+	# The current TRAVIS_PROFILE is :
 	$(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
@@ -47,8 +48,10 @@ dev:
 demo:
 	# add more info to facilitate debugging
 	# START this is `demo` in Makefile
-	# The TRAVIS_PROFILE is: 
+	# The current TRAVIS_PROFILE is: 
 	$(TRAVIS_PROFILE)
+	# We replace the TRAVIS PROFILE variable with the correct one
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -59,8 +62,10 @@ demo:
 prod:
 	# add more info to facilitate debugging
 	# START this is `prod` in Makefile
-	# The TRAVIS_PROFILE is:
+	# The current TRAVIS_PROFILE is: 
 	$(TRAVIS_PROFILE)
+	# We replace the TRAVIS PROFILE variable with the correct one
+	TRAVIS_PROFILE=$(call ssm,TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
