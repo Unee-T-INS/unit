@@ -1,6 +1,6 @@
-# This script deplpoy the Unit API.
+# This script deploys the Unit API.
 # The hard code variable TRAVIS_PROFILE below will be overridden when .travis.yml runs
-TRAVIS_PROFILE = ins-dev
+TRAVIS_PROFILE = should-be-overridden-by-deploy
 
 # We create a function to simplify getting variables for aws parameter store.
 
@@ -33,30 +33,36 @@ PRODUPJSON = '.profile |= "$(TRAVIS_PROFILE)" \
 # We have everything, we can run up now.
 dev:
 	# add more info to facilitate debugging
-	echo `this is Makefile`
+	echo '# START this is `dev` in Makefile'
+	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
 	jq $(UPJSON) up.json.in > up.json
 	up deploy production
+	echo '# END this is dev in Makefile'
 
 demo:
 	# add more info to facilitate debugging
-	echo `this is Makefile`
+	echo '# START this is `demo` in Makefile'
+	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
 	jq $(UPJSON) up.json.in > up.json
 	up deploy production
+	echo '# END this is demo in Makefile'
 
 prod:
 	# add more info to facilitate debugging
-	echo `This is Makefile`
+	echo '# START this is `prod` in Makefile'
+	echo '# The TRAVIS_PROFILE is ' $(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
 	jq $(PRODUPJSON) up.json.in > up.json
 	up deploy production
+	echo '# END this is `prod` in Makefile'
 
 test:
 	curl -i -H "Authorization: Bearer $(call ssm,API_ACCESS_TOKEN)" https://unit.$(call ssm,STAGE).$(call ssm,DOMAIN)/metrics
