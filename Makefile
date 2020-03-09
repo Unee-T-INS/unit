@@ -36,7 +36,7 @@ dev:
 	# add more info to facilitate debugging
 	# START this is `dev` in Makefile
 	# The TRAVIS_PROFILE is :
-	echo $(TRAVIS_PROFILE)
+	$(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -48,7 +48,7 @@ demo:
 	# add more info to facilitate debugging
 	# START this is `demo` in Makefile
 	# The TRAVIS_PROFILE is: 
-	echo $(TRAVIS_PROFILE)
+	$(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
@@ -60,7 +60,7 @@ prod:
 	# add more info to facilitate debugging
 	# START this is `prod` in Makefile
 	# The TRAVIS_PROFILE is:
-	echo $(TRAVIS_PROFILE)
+	$(TRAVIS_PROFILE)
 	@echo $$AWS_ACCESS_KEY_ID
 	# We replace the relevant variable in the up.json file
 	# We use the template defined in up.json.in for that
