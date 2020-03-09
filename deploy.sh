@@ -48,7 +48,7 @@ then
 
 fi
 
-# Step 2: Run Make
-    make $1
+# Step 2: Make sure we use the correct profile and run Make
+   TRAVIS_PROFILE=${TRAVIS_PROFILE} make $1
 
 echo '# END - deploy.sh'
